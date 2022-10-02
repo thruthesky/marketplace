@@ -1,5 +1,9 @@
+import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
+import '../flutter_flow/upload_media.dart';
+import '../custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,6 +15,8 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+  String uploadedFileUrl = '';
+  String? uploadedMediaUrl;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -38,7 +44,83 @@ class _HomeWidgetState extends State<HomeWidget> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            children: [],
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FFButtonWidget(
+                onPressed: () async {
+                  final selectedMedia = await selectMediaWithSourceBottomSheet(
+                    context: context,
+                    allowPhoto: true,
+                  );
+                  if (selectedMedia != null &&
+                      selectedMedia.every(
+                          (m) => validateFileFormat(m.storagePath, context))) {
+                    showUploadMessage(
+                      context,
+                      'Uploading file...',
+                      showLoading: true,
+                    );
+                    final downloadUrls = (await Future.wait(selectedMedia.map(
+                            (m) async =>
+                                await uploadData(m.storagePath, m.bytes))))
+                        .where((u) => u != null)
+                        .map((u) => u!)
+                        .toList();
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    if (downloadUrls.length == selectedMedia.length) {
+                      setState(() => uploadedFileUrl = downloadUrls.first);
+                      showUploadMessage(
+                        context,
+                        'Success!',
+                      );
+                    } else {
+                      showUploadMessage(
+                        context,
+                        'Failed to upload media',
+                      );
+                      return;
+                    }
+                  }
+                },
+                text: 'Default Upload',
+                options: FFButtonOptions(
+                  width: 130,
+                  height: 40,
+                  color: FlutterFlowTheme.of(context).primaryColor,
+                  textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                        fontFamily: 'Poppins',
+                        color: Colors.white,
+                      ),
+                  borderSide: BorderSide(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              FFButtonWidget(
+                onPressed: () async {
+                  uploadedMediaUrl = await actions.uploadMedia();
+
+                  setState(() {});
+                },
+                text: 'Custom Upload',
+                options: FFButtonOptions(
+                  width: 130,
+                  height: 40,
+                  color: FlutterFlowTheme.of(context).primaryColor,
+                  textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                        fontFamily: 'Poppins',
+                        color: Colors.white,
+                      ),
+                  borderSide: BorderSide(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ],
           ),
         ),
       ),
