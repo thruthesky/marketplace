@@ -114,7 +114,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               ),
               FFButtonWidget(
                 onPressed: () async {
-                  uploadedMediaUrl = await actions.uploadMedia();
+                  uploadedMediaUrl = await actions.uploadMedia(
+                    context,
+                  );
 
                   setState(() {});
                 },

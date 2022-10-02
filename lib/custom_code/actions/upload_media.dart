@@ -5,7 +5,6 @@ import 'index.dart'; // Imports other custom actions
 import 'package:flutter/material.dart';
 
 // Begin custom action code
-Future<String> uploadMedia() async {
-  // Add your function code here!
-  return "";
+Future<String> uploadMedia(BuildContext context) async {
+  return '';
 }
