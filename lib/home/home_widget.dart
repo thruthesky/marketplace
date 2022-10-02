@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -46,6 +47,13 @@ class _HomeWidgetState extends State<HomeWidget> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Text(
+                'Welcome, ${valueOrDefault<String>(
+                  currentUserUid,
+                  'UID',
+                )}',
+                style: FlutterFlowTheme.of(context).bodyText1,
+              ),
               FFButtonWidget(
                 onPressed: () async {
                   final selectedMedia = await selectMediaWithSourceBottomSheet(
