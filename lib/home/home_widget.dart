@@ -58,7 +58,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                 onPressed: () async {
                   final selectedMedia = await selectMediaWithSourceBottomSheet(
                     context: context,
+                    maxWidth: 1200.00,
+                    maxHeight: 800.00,
+                    imageQuality: 95,
                     allowPhoto: true,
+                    backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+                    textColor: FlutterFlowTheme.of(context).primaryBackground,
+                    pickerFontFamily: 'Open Sans',
                   );
                   if (selectedMedia != null &&
                       selectedMedia.every(
