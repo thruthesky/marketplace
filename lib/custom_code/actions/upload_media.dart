@@ -2,15 +2,13 @@
 import '../../flutter_flow/flutter_flow_theme.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom actions
+import '../../flutter_flow/custom_functions.dart'; // Imports custom functions
 import 'package:flutter/material.dart';
 // Begin custom action code
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-
+// Begin custom action code
 import 'package:image_picker/image_picker.dart';
-import '../../backend/firebase_storage/storage.dart';
-
-import '../../auth/auth_util.dart';
-
 import 'package:mime_type/mime_type.dart';
 import 'dart:typed_data';
 
@@ -39,6 +37,8 @@ Future<List<SelectedMedia>?> selectMedia({
   bool multiImage = false,
 }) async {
   final picker = ImagePicker();
+  // User must sign-in before uploading media.
+  final String currentUserUid = FirebaseAuth.instance.currentUser?.uid ?? '';
 
   if (multiImage) {
     final pickedMediaFuture = picker.pickMultiImage(
@@ -129,7 +129,7 @@ Future<String?> uploadData(String path, Uint8List data) async {
 
 /// [media] can be on of 'image' or 'video'.
 /// [multiImage] is only available when the media source is set to 'image'
-Future<List<String>?> uploadMedia(
+Future<List<String>> uploadMedia(
   BuildContext context,
   bool allowPhoto,
   bool allowVideo,
@@ -221,7 +221,7 @@ Future<List<String>?> uploadMedia(
       });
   if (mediaSource == null) {
     // Finished without selecting a media source
-    return null;
+    return [];
   }
 
   /// * Select media from source. It may be a list of images or a single video.
@@ -236,7 +236,7 @@ Future<List<String>?> uploadMedia(
   );
   if (selectedMedia == null) {
     // Finished without selecting a media
-    return null;
+    return [];
   }
 
   if (selectedMedia.every((m) => validateFileFormat(m.storagePath, context))) {
@@ -264,11 +264,11 @@ Future<List<String>?> uploadMedia(
         context,
         'Failed to upload media',
       );
-      return null;
+      return [];
     }
   }
 
-  /// * Return null if the user cancelled the upload
+  /// * Return empty array if the user cancelled the upload
   /// * Or contains any image/video that has wrong format.
-  return null;
+  return [];
 }
