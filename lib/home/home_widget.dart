@@ -16,8 +16,8 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  String uploadedFileUrl = '';
-  String? uploadedMediaUrl;
+  List<String> uploadedFileUrls = [];
+  List<String>? uploadedMediaUrl;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -56,15 +56,12 @@ class _HomeWidgetState extends State<HomeWidget> {
               ),
               FFButtonWidget(
                 onPressed: () async {
-                  final selectedMedia = await selectMediaWithSourceBottomSheet(
-                    context: context,
+                  final selectedMedia = await selectMedia(
                     maxWidth: 1200.00,
                     maxHeight: 800.00,
                     imageQuality: 95,
-                    allowPhoto: true,
-                    backgroundColor: FlutterFlowTheme.of(context).primaryColor,
-                    textColor: FlutterFlowTheme.of(context).primaryBackground,
-                    pickerFontFamily: 'Open Sans',
+                    mediaSource: MediaSource.photoGallery,
+                    multiImage: true,
                   );
                   if (selectedMedia != null &&
                       selectedMedia.every(
@@ -82,7 +79,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         .toList();
                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
                     if (downloadUrls.length == selectedMedia.length) {
-                      setState(() => uploadedFileUrl = downloadUrls.first);
+                      setState(() => uploadedFileUrls = downloadUrls);
                       showUploadMessage(
                         context,
                         'Success!',
@@ -116,6 +113,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                 onPressed: () async {
                   uploadedMediaUrl = await actions.uploadMedia(
                     context,
+                    true,
+                    false,
+                    true,
+                    1200.0,
+                    800.0,
+                    95,
                   );
 
                   setState(() {});
