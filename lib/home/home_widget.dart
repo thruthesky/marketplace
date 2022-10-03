@@ -1,6 +1,7 @@
 import '../auth/auth_util.dart';
 import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
+import '../flutter_flow/flutter_flow_media_display.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_video_player.dart';
@@ -131,6 +132,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                         800.0,
                         95,
                       );
+                      setState(() => FFAppState().uploadedImageUrls = functions
+                          .mergeTwoStringArray(
+                              FFAppState().uploadedImageUrls.toList(),
+                              uploadedMediaUrls!.toList())
+                          .toList());
 
                       setState(() {});
                     },
@@ -152,14 +158,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                     ),
                   ),
                 ),
-                if (!functions
-                    .isStringArrayNullOrEmpty(uploadedMediaUrls?.toList()))
+                if (!functions.isStringArrayNullOrEmpty(
+                    FFAppState().uploadedImageUrls.toList()))
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                     child: Builder(
                       builder: (context) {
                         final listOfUploadedMedialUrls =
-                            uploadedMediaUrls!.toList();
+                            FFAppState().uploadedImageUrls.toList();
                         return GridView.builder(
                           padding: EdgeInsets.zero,
                           gridDelegate:
@@ -201,8 +207,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                                           .alternate,
                                       size: 30,
                                     ),
-                                    onPressed: () {
-                                      print('IconButton pressed ...');
+                                    onPressed: () async {
+                                      await actions.deleteMedia(
+                                        listOfUploadedMedialUrlsItem,
+                                      );
+                                      setState(() => FFAppState()
+                                          .uploadedImageUrls
+                                          .remove(
+                                              listOfUploadedMedialUrlsItem));
                                     },
                                   ),
                                 ),
@@ -226,6 +238,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                         800.0,
                         80,
                       );
+                      setState(() => FFAppState().uploadedVideoUrls = functions
+                          .mergeTwoStringArray(
+                              FFAppState().uploadedVideoUrls.toList(),
+                              uploadedVideoUrls!.toList())
+                          .toList());
 
                       setState(() {});
                     },
@@ -247,14 +264,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                     ),
                   ),
                 ),
-                if (!functions
-                    .isStringArrayNullOrEmpty(uploadedVideoUrls?.toList()))
+                if (!functions.isStringArrayNullOrEmpty(
+                    FFAppState().uploadedVideoUrls.toList()))
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                     child: Builder(
                       builder: (context) {
                         final listOfUploadedVideos =
-                            uploadedVideoUrls!.toList();
+                            FFAppState().uploadedVideoUrls.toList();
                         return ListView.builder(
                           padding: EdgeInsets.zero,
                           primary: false,
@@ -269,15 +286,24 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
                               child: Stack(
                                 children: [
-                                  FlutterFlowVideoPlayer(
+                                  FlutterFlowMediaDisplay(
                                     path: functions.convertStringToVideoPath(
                                         listOfUploadedVideosItem),
-                                    videoType: VideoType.network,
-                                    autoPlay: false,
-                                    looping: true,
-                                    showControls: true,
-                                    allowFullScreen: true,
-                                    allowPlaybackSpeedMenu: false,
+                                    imageBuilder: (path) => Image.network(
+                                      path,
+                                      width: MediaQuery.of(context).size.width,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    videoPlayerBuilder: (path) =>
+                                        FlutterFlowVideoPlayer(
+                                      path: path,
+                                      width: 300,
+                                      autoPlay: false,
+                                      looping: true,
+                                      showControls: true,
+                                      allowFullScreen: true,
+                                      allowPlaybackSpeedMenu: false,
+                                    ),
                                   ),
                                   Align(
                                     alignment: AlignmentDirectional(-1, 0),
@@ -292,8 +318,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                                             .alternate,
                                         size: 30,
                                       ),
-                                      onPressed: () {
-                                        print('IconButton pressed ...');
+                                      onPressed: () async {
+                                        await actions.deleteMedia(
+                                          listOfUploadedVideosItem,
+                                        );
+                                        setState(() => FFAppState()
+                                            .uploadedVideoUrls
+                                            .remove(listOfUploadedVideosItem));
                                       },
                                     ),
                                   ),

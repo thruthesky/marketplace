@@ -18,7 +18,9 @@ class FFAppState {
 
   late SharedPreferences prefs;
 
-  List<String> uploadedImages = [];
+  List<String> uploadedImageUrls = [];
+
+  List<String> uploadedVideoUrls = [];
 }
 
 LatLng? _latLngFromString(String? val) {

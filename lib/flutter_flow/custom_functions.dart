@@ -9,8 +9,7 @@ import 'place.dart';
 import '../../auth/auth_util.dart';
 
 bool isStringArrayNullOrEmpty(List<String>? arr) {
-  if (arr == null) return true;
-  return arr.isEmpty;
+  return arr == null || arr.isEmpty;
 }
 
 String convertStringToImagePath(String url) {
@@ -19,4 +18,11 @@ String convertStringToImagePath(String url) {
 
 String convertStringToVideoPath(String urlString) {
   return urlString;
+}
+
+List<String> mergeTwoStringArray(
+  List<String> arrayA,
+  List<String> arrayB,
+) {
+  return [...arrayA, ...arrayB].toSet().toList();
 }
