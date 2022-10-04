@@ -1,16 +1,13 @@
 import '../auth/auth_util.dart';
 import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
-import '../flutter_flow/flutter_flow_media_display.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_video_player.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/upload_media.dart';
 import '../custom_code/actions/index.dart' as actions;
 import '../custom_code/widgets/index.dart' as custom_widgets;
 import '../flutter_flow/custom_functions.dart' as functions;
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -296,23 +293,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
                                     ),
-                                    child: FlutterFlowMediaDisplay(
-                                      path: functions.convertStringToVideoPath(
-                                          listOfUploadedVideosItem),
-                                      imageBuilder: (path) =>
-                                          CachedNetworkImage(
-                                        imageUrl: path,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      videoPlayerBuilder: (path) =>
-                                          FlutterFlowVideoPlayer(
-                                        path: path,
-                                        width: 300,
-                                        autoPlay: false,
-                                        looping: true,
-                                        showControls: true,
-                                        allowFullScreen: true,
-                                        allowPlaybackSpeedMenu: false,
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 200,
+                                      child: custom_widgets.UploadedMedia(
+                                        width: double.infinity,
+                                        height: 200,
+                                        url: listOfUploadedVideosItem,
                                       ),
                                     ),
                                   ),
