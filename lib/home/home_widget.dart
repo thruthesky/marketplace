@@ -8,7 +8,9 @@ import '../flutter_flow/flutter_flow_video_player.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/upload_media.dart';
 import '../custom_code/actions/index.dart' as actions;
+import '../custom_code/widgets/index.dart' as custom_widgets;
 import '../flutter_flow/custom_functions.dart' as functions;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -59,6 +61,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                     'UID',
                   )}',
                   style: FlutterFlowTheme.of(context).bodyText1,
+                ),
+                custom_widgets.LinkifyText(
+                  width: double.infinity,
+                  height: 32,
+                  text: 'Hi, There. https://philgo.com ;',
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
@@ -272,13 +279,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                       builder: (context) {
                         final listOfUploadedVideos =
                             FFAppState().uploadedVideoUrls.toList();
-                        return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          primary: false,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: listOfUploadedVideos.length,
-                          itemBuilder: (context, listOfUploadedVideosIndex) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: List.generate(listOfUploadedVideos.length,
+                              (listOfUploadedVideosIndex) {
                             final listOfUploadedVideosItem =
                                 listOfUploadedVideos[listOfUploadedVideosIndex];
                             return Padding(
@@ -286,23 +290,30 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
                               child: Stack(
                                 children: [
-                                  FlutterFlowMediaDisplay(
-                                    path: functions.convertStringToVideoPath(
-                                        listOfUploadedVideosItem),
-                                    imageBuilder: (path) => Image.network(
-                                      path,
-                                      width: MediaQuery.of(context).size.width,
-                                      fit: BoxFit.cover,
+                                  Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
                                     ),
-                                    videoPlayerBuilder: (path) =>
-                                        FlutterFlowVideoPlayer(
-                                      path: path,
-                                      width: 300,
-                                      autoPlay: false,
-                                      looping: true,
-                                      showControls: true,
-                                      allowFullScreen: true,
-                                      allowPlaybackSpeedMenu: false,
+                                    child: FlutterFlowMediaDisplay(
+                                      path: functions.convertStringToVideoPath(
+                                          listOfUploadedVideosItem),
+                                      imageBuilder: (path) =>
+                                          CachedNetworkImage(
+                                        imageUrl: path,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      videoPlayerBuilder: (path) =>
+                                          FlutterFlowVideoPlayer(
+                                        path: path,
+                                        width: 300,
+                                        autoPlay: false,
+                                        looping: true,
+                                        showControls: true,
+                                        allowFullScreen: true,
+                                        allowPlaybackSpeedMenu: false,
+                                      ),
                                     ),
                                   ),
                                   Align(
@@ -331,7 +342,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 ],
                               ),
                             );
-                          },
+                          }),
                         );
                       },
                     ),
