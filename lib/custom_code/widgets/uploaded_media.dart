@@ -39,7 +39,8 @@ class _UploadedMediaState extends State<UploadedMedia> {
         ),
         videoPlayerBuilder: (path) => FlutterFlowVideoPlayer(
           path: path,
-          width: 300,
+          width: widget.width,
+          height: widget.height,
           autoPlay: false,
           looping: true,
           showControls: true,
