@@ -1,10 +1,8 @@
 import '../auth/auth_util.dart';
 import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
-import '../flutter_flow/flutter_flow_media_display.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_video_player.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/upload_media.dart';
 import '../custom_code/actions/index.dart' as actions;
@@ -336,24 +334,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                       },
                     ),
                   ),
-                FlutterFlowMediaDisplay(
-                  path: currentUserPhoto,
-                  imageBuilder: (path) => Image.network(
-                    path,
-                    width: 300,
-                    height: 300,
-                    fit: BoxFit.cover,
-                  ),
-                  videoPlayerBuilder: (path) => FlutterFlowVideoPlayer(
-                    path: path,
-                    width: 300,
-                    autoPlay: false,
-                    looping: true,
-                    showControls: true,
-                    allowFullScreen: true,
-                    allowPlaybackSpeedMenu: false,
-                  ),
-                ),
               ],
             ),
           ),
